@@ -3,9 +3,14 @@
 import * as React from "react"
 import {
   AudioWaveform,
+  Bell,
   BookOpen,
   Bot,
+  Building2,
+  CircleDollarSign,
+  Coins,
   Command,
+  DollarSignIcon,
   FilePlus2,
   Frame,
   GalleryVerticalEnd,
@@ -14,6 +19,8 @@ import {
   PieChart,
   Settings2,
   SquareTerminal,
+  Ticket,
+  User,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -50,91 +57,80 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/dashboard",
       icon: LayoutDashboardIcon,
       isActive: true,
-      // items: [
-      //   {
-      //     title: "History",
-      //     url: "#",
-      //   },
-      //   {
-      //     title: "Starred",
-      //     url: "#",
-      //   },
-      //   {
-      //     title: "Settings",
-      //     url: "#",
-      //   },
-      // ],
+    },
+    {
+      title: "Notifications",
+      url: "/notifications",
+      icon: Bell,
     },
     {
       title: "Projects",
-      url: "#",
+      url: "/projects",
       icon: FilePlus2,
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: "New Project",
+          url: "/projects/new",
         },
         {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
+          title: "Manage Projects",
+          url: "/projects/manage",
         },
       ],
     },
     {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
+      title: "Colleges",
+      url: "/colleges",
+      icon: Building2,
       items: [
         {
-          title: "Introduction",
-          url: "#",
+          title: "Add College",
+          url: "/colleges/new",
         },
         {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
+          title: "Manage Colleges",
+          url: "/colleges/manage",
         },
       ],
+    },
+    {
+      title: "Human Resource",
+      url: "/hr",
+      icon: User,
+    },
+    {
+      title: "Payments",
+      url: "/payments",
+      icon: CircleDollarSign,
+    },
+    {
+      title: "Tickets",
+      url: "/tickets",
+      icon: Ticket,
     },
     {
       title: "Settings",
-      url: "#",
+      url: "/settings",
       icon: Settings2,
       items: [
         {
           title: "General",
-          url: "#",
+          url: "/settings/general",
         },
         {
           title: "Team",
-          url: "#",
+          url: "/settings/team",
         },
         {
           title: "Billing",
-          url: "#",
+          url: "/settings/billing",
         },
         {
           title: "Limits",
-          url: "#",
+          url: "/settings/limits",
         },
       ],
     },
