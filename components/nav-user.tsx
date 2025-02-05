@@ -8,6 +8,8 @@ import {
   LogOut,
   Sparkles,
 } from "lucide-react"
+import { deleteCookie } from 'cookies-next'
+import { useRouter } from 'next/navigation'
 
 import {
   Avatar,
@@ -40,6 +42,19 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const router = useRouter()
+
+  const handleLogout = () => {
+    // Clear cookies
+    deleteCookie('access_token')
+    
+    // Clear localStorage
+    localStorage.removeItem('user')
+    localStorage.removeItem('refresh_token')
+    
+    // Force a hard redirect to login page
+    window.location.href = '/login'
+  }
 
   return (
     <SidebarMenu>
@@ -52,7 +67,9 @@ export function NavUser({
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-lg">
+                  {user.name.substring(0, 2).toUpperCase()}
+                </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">{user.name}</span>
@@ -71,7 +88,9 @@ export function NavUser({
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">
+                    {user.name.substring(0, 2).toUpperCase()}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">{user.name}</span>
@@ -82,29 +101,29 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <Sparkles />
+                <Sparkles className="mr-2 h-4 w-4" />
                 Upgrade to Pro
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <BadgeCheck />
+                <BadgeCheck className="mr-2 h-4 w-4" />
                 Account
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <CreditCard />
+                <CreditCard className="mr-2 h-4 w-4" />
                 Billing
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Bell />
+                <Bell className="mr-2 h-4 w-4" />
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut />
-              Log out
+            <DropdownMenuItem onClick={handleLogout}>
+              <LogOut className="mr-2 h-4 w-4" />
+              Logout
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

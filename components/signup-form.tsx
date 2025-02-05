@@ -1,5 +1,6 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { cn } from "@/lib/utils"
@@ -11,11 +12,15 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import { signupSchema, type SignupInput } from "@/lib/validations/auth"
 import { useState } from "react"
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL
+
 export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const router = useRouter()
   
   const {
     register,
@@ -28,11 +33,35 @@ export function SignupForm({
 
   async function onSubmit(data: SignupInput) {
     setIsLoading(true)
+    setError(null)
+
     try {
-      // Handle signup logic here
-      console.log(data)
+      const response = await fetch(`${API_URL}/api/v1/auth/register/initiate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: data.username,
+          password: data.password,
+          email: data.email,
+          fullName: data.fullname,
+          role: data.role,
+        }),
+      })
+
+      const result = await response.json()
+
+      if (result.status === 'ERROR') {
+        setError(result.message)
+        return
+      }
+
+      if (result.status === 'SUCCESS') {
+        // Redirect to email verification page
+        router.push(`/verify-email?email=${encodeURIComponent(data.email)}`)
+      }
     } catch (error) {
       console.error(error)
+      setError('Registration failed. Please try again.')
     } finally {
       setIsLoading(false)
     }
@@ -106,6 +135,9 @@ export function SignupForm({
                   <p className="text-sm text-red-500">{errors.role.message}</p>
                 )}
               </div>
+              {error && (
+                <p className="text-sm text-red-500">{error}</p>
+              )}
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? "Loading..." : "Sign Up"}
               </Button>
