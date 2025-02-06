@@ -123,10 +123,13 @@ export function ForgotPasswordForm({
           {!emailSent ? (
             <form onSubmit={handleRequestCode(onRequestCode)}>
               <div className="flex flex-col gap-6">
+                <div className="flex flex-col items-center text-center">
+                  <h1 className="text-2xl font-bold">Trainers India</h1>
+                  <p className="text-balance text-muted-foreground">
+                    Reset your password
+                  </p>
+                </div>
                 <div className="flex flex-col gap-2">
-                  <h1 className="text-2xl font-semibold tracking-tight">
-                    Forgot Password
-                  </h1>
                   <p className="text-sm text-muted-foreground">
                     Enter your email address and we'll send you a code to reset your password.
                   </p>
@@ -161,10 +164,13 @@ export function ForgotPasswordForm({
           ) : !resetComplete ? (
             <form onSubmit={handleReset(onResetPassword)}>
               <div className="flex flex-col gap-6">
+                <div className="flex flex-col items-center text-center">
+                  <h1 className="text-2xl font-bold">Trainers India</h1>
+                  <p className="text-balance text-muted-foreground">
+                    Reset your password
+                  </p>
+                </div>
                 <div className="flex flex-col gap-2">
-                  <h1 className="text-2xl font-semibold tracking-tight">
-                    Reset Password
-                  </h1>
                   <p className="text-sm text-muted-foreground">
                     Enter the 6-digit code sent to your email and your new password.
                   </p>
@@ -227,14 +233,15 @@ export function ForgotPasswordForm({
             </form>
           ) : (
             <div className="flex flex-col gap-4">
-              <div className="flex flex-col gap-2">
-                <h1 className="text-2xl font-semibold tracking-tight">
+              <div className="flex flex-col items-center text-center">
+                <h1 className="text-2xl font-bold">Trainers India</h1>
+                <p className="text-balance text-muted-foreground">
                   Password Reset Complete
-                </h1>
-                <p className="text-sm text-muted-foreground">
-                  Your password has been successfully reset.
                 </p>
               </div>
+              <p className="text-sm text-muted-foreground text-center">
+                Your password has been successfully reset.
+              </p>
               <Button asChild>
                 <a href="/login">Return to Login</a>
               </Button>
