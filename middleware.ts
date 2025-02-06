@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname
 
   // Define public routes that don't require authentication
-  const isPublicRoute = ['/login', '/signup', '/', '/verify-email'].includes(path)
+  const isPublicRoute = ['/login', '/signup', '/', '/verify-email', '/forgot-password'].includes(path)
 
   // Get token from cookies instead of headers
   const token = request.cookies.get('access_token')?.value
