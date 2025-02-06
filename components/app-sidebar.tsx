@@ -4,13 +4,8 @@ import * as React from "react"
 import {
   AudioWaveform,
   Bell,
-  BookOpen,
-  Bot,
   Building2,
   CircleDollarSign,
-  Coins,
-  Command,
-  DollarSignIcon,
   FilePlus2,
   Frame,
   GalleryVerticalEnd,
@@ -18,7 +13,6 @@ import {
   Map,
   PieChart,
   Settings2,
-  SquareTerminal,
   Ticket,
   User,
 } from "lucide-react"

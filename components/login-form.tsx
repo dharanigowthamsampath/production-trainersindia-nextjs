@@ -9,10 +9,11 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { loginSchema, type LoginInput } from "@/lib/validations/auth"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { setCookie } from 'cookies-next'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
+const REFRESH_TOKEN_BEFORE = 5 * 60 * 1000 // 5 minutes
 
 interface VerifyResponse {
   username: string
@@ -27,6 +28,7 @@ export function LoginForm({
 }: React.ComponentProps<"div">) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [loginAttempts, setLoginAttempts] = useState(0)
   const router = useRouter()
   const searchParams = useSearchParams()
   const from = searchParams.get('from') || '/dashboard'
@@ -38,6 +40,16 @@ export function LoginForm({
   } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
   })
+
+  // Reset login attempts after 30 minutes
+  useEffect(() => {
+    if (loginAttempts >= 5) {
+      const timer = setTimeout(() => {
+        setLoginAttempts(0)
+      }, 30 * 60 * 1000)
+      return () => clearTimeout(timer)
+    }
+  }, [loginAttempts])
 
   async function verifyToken(token: string) {
     try {
@@ -55,13 +67,14 @@ export function LoginForm({
 
       const userData: VerifyResponse = await response.json()
       
-      // Store user data and refresh token
+      // Store user data
       localStorage.setItem('user', JSON.stringify({
         username: userData.username,
         email: userData.email,
         userType: userData.userType
       }))
       localStorage.setItem('refresh_token', userData.refreshToken)
+      localStorage.setItem('last_activity', Date.now().toString())
 
       return true
     } catch (error) {
@@ -71,6 +84,11 @@ export function LoginForm({
   }
 
   async function onSubmit(data: LoginInput) {
+    if (loginAttempts >= 5) {
+      setError('Too many login attempts. Please try again later.')
+      return
+    }
+
     setIsLoading(true)
     setError(null)
 
@@ -78,58 +96,69 @@ export function LoginForm({
       const loginResponse = await fetch(`${API_URL}/api/v1/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: data.email,
-          password: data.password
-        }),
+        body: JSON.stringify(data),
       })
 
       const loginResult = await loginResponse.json()
-      console.log('Login response:', loginResult)
 
       switch (loginResponse.status) {
         case 200:
           if (loginResult.status === 'SUCCESS' && loginResult.data?.accessToken) {
             const accessToken = loginResult.data.accessToken
-            console.log('Access token received:', accessToken)
             
-            // Store token in cookie instead of localStorage
+            // Store token with expiry
             setCookie('access_token', accessToken, {
               path: '/',
               secure: process.env.NODE_ENV === 'production',
               sameSite: 'lax',
-              maxAge: 60 * 60 * 24 // 24 hours
+              maxAge: 60 * 60 * 24,
+              expires: new Date(Date.now() + 24 * 60 * 60 * 1000)
             })
 
-            // Store user data in localStorage (this is fine for user preferences)
             const isVerified = await verifyToken(accessToken)
             
             if (isVerified) {
+              // Reset login attempts on successful login
+              setLoginAttempts(0)
               window.location.href = '/dashboard'
             } else {
               setError('Session verification failed')
-              // Clear cookie if verification fails
               setCookie('access_token', '', { maxAge: 0 })
+              setLoginAttempts(prev => prev + 1)
             }
             return
           }
           break
 
         case 401:
-          setError(loginResult.message || 'Invalid email or password')
+          setError('Invalid email or password')
+          setLoginAttempts(prev => prev + 1)
+          return
+
+        case 403:
+          setError('Account is locked. Please contact support.')
+          return
+
+        case 404:
+          setError('Account not found')
+          setLoginAttempts(prev => prev + 1)
+          return
+
+        case 429:
+          setError('Too many requests. Please try again later.')
           return
 
         case 500:
-          setError(loginResult.message || 'An error occurred during login')
+          setError('Server error. Please try again later.')
           return
 
         default:
-          setError('Login failed. Please try again.')
+          setError('An unexpected error occurred')
           return
       }
     } catch (error) {
       console.error('Login error:', error)
-      setError('Unable to connect to the server')
+      setError('Network error. Please check your connection.')
     } finally {
       setIsLoading(false)
     }
