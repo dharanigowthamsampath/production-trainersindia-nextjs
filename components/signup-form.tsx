@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { signupSchema, type SignupInput } from "@/lib/validations/auth"
 import { useState } from "react"
+import Image from 'next/image' // Importing Image from next/image
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -156,9 +157,10 @@ export function SignupForm({
             </div>
           </form>
           <div className="relative hidden bg-muted md:block">
-            <img
+            <Image
               src="/dance.jpeg"
               alt="Image"
+              layout="fill"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
             />
           </div>

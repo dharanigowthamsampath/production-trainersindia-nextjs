@@ -22,7 +22,7 @@ export default function PrivacyPolicy() {
             </div>
 
             <div className="prose prose-gray max-w-none dark:prose-invert">
-              <p>Welcome to <strong>Trainers India</strong> ("we," "our," "us"). Your privacy is important to us. This Privacy Policy explains how we collect, use, store, and protect your personal information when you use our website <strong>www.trainers-india.in</strong> ("Website" or "Platform").</p>
+              <p>Welcome to <strong>Trainers India</strong> (&quot;we,&quot; &quot;our,&quot; &quot;us&quot;). Your privacy is important to us. This Privacy Policy explains how we collect, use, store, and protect your personal information when you use our website <strong>www.trainers-india.in</strong> (&quot;Website&quot; or &quot;Platform&quot;).</p>
 
               <h2 className="text-xl font-semibold mt-8 mb-4">1. Information We Collect</h2>
               <p>We collect the following personal information when you register on our platform:</p>

@@ -22,16 +22,16 @@ export default function TermsAndConditions() {
             </div>
 
             <div className="prose prose-gray max-w-none dark:prose-invert">
-              <p>Welcome to <strong>Trainers India</strong>! These Terms & Conditions ("Terms") govern your access to and use of our job portal <strong>www.trainers-india.in</strong> ("Platform" or "Website"). By registering on our platform, you agree to comply with these Terms.</p>
+              <p>Welcome to <strong>Trainers India</strong>! These Terms & Conditions (&quot;Terms&quot;) govern your access to and use of our job portal <strong>www.trainers-india.in</strong> (&quot;Platform&quot; or &quot;Website&quot;). By registering on our platform, you agree to comply with these Terms.</p>
 
               <h2 className="text-xl font-semibold mt-8 mb-4">1. Definitions</h2>
               <ul className="list-disc pl-6 space-y-2">
-                <li><strong>"Platform"</strong> refers to Trainers India, including its website and services.</li>
-                <li><strong>"User"</strong> refers to <strong>Trainers (job seekers)</strong> and <strong>Companies (employers)</strong> registered on the platform.</li>
-                <li><strong>"We," "our," "us"</strong> refers to Trainers India.</li>
+                <li><strong>&quot;Platform&quot;</strong> refers to Trainers India, including its website and services.</li>
+                <li><strong>&quot;User&quot;</strong> refers to <strong>Trainers (job seekers)</strong> and <strong>Companies (employers)</strong> registered on the platform.</li>
+                <li><strong>&quot;We,&quot; &quot;our,&quot; &quot;us&quot;</strong> refers to Trainers India.</li>
               </ul>
 
-              <h2 className="text-xl font-semibold mt-8 mb-4">2. User Eligibility & Registration</h2>
+              <h2 className="text-xl font-semibold mt-8 mb-4">2. User Eligibility &amp; Registration</h2>
               <ul className="list-disc pl-6 space-y-2">
                 <li>Only <strong>Trainers (job seekers)</strong> and <strong>Companies (employers)</strong> can create an account.</li>
                 <li>Users must provide <strong>accurate</strong> information during registration.</li>
@@ -53,7 +53,7 @@ export default function TermsAndConditions() {
                 <li>Should conduct their own <strong>background verification</strong> before hiring.</li>
               </ul>
 
-              <h2 className="text-xl font-semibold mt-8 mb-4">4. Payments & Financial Transactions</h2>
+              <h2 className="text-xl font-semibold mt-8 mb-4">4. Payments &amp; Financial Transactions</h2>
               <div className="bg-muted p-4 rounded-lg space-y-2">
                 <ul className="list-disc pl-6 space-y-2">
                   <li>Trainers India <strong>does not</strong> request, facilitate, or process <strong>any payments</strong> through the platform.</li>
@@ -75,7 +75,7 @@ export default function TermsAndConditions() {
                 <p className="text-sm text-muted-foreground mt-4">Violating these rules may lead to <strong>account suspension or permanent ban</strong>.</p>
               </div>
 
-              <h2 className="text-xl font-semibold mt-8 mb-4">6. Platform Liability & User Verification</h2>
+              <h2 className="text-xl font-semibold mt-8 mb-4">6. Platform Liability &amp; User Verification</h2>
               <div className="bg-muted p-4 rounded-lg space-y-2">
                 <ul className="list-disc pl-6 space-y-2">
                   <li>We <strong>do not verify</strong> all job listings or trainer profiles.</li>
@@ -104,7 +104,7 @@ export default function TermsAndConditions() {
                   <li>We may update these Terms from time to time.</li>
                   <li>Users will be <strong>notified via email</strong> of major changes.</li>
                 </ul>
-                <p className="text-sm text-muted-foreground mt-4">By using our platform, you agree to these Terms & Conditions.</p>
+                <p className="text-sm text-muted-foreground mt-4">By using our platform, you agree to these Terms &amp; Conditions.</p>
               </div>
             </div>
           </CardContent>

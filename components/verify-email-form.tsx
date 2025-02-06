@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter, useSearchParams } from "next/navigation"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -18,12 +18,19 @@ export function VerifyEmailForm({
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
   const [otp, setOtp] = useState("")
+  const [emailParam, setEmailParam] = useState<string | null>(null)
   const router = useRouter()
   const searchParams = useSearchParams()
-  const email = searchParams.get('email')
+
+  useEffect(() => {
+    const email = searchParams.get('email')
+    setEmailParam(email)
+  }, [searchParams])
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault()
+    if (!emailParam) return
+
     setIsLoading(true)
     setError(null)
     setSuccess(null)
@@ -33,8 +40,8 @@ export function VerifyEmailForm({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          email, 
-          code: otp // Changed from verificationCode to code
+          email: emailParam, 
+          code: otp
         }),
       })
 
@@ -44,7 +51,7 @@ export function VerifyEmailForm({
         setSuccess(result.message)
         // Wait for 3 seconds before redirecting
         setTimeout(() => {
-          router.push('/')
+          router.push('/login')
         }, 3000)
       } else {
         setError(result.message)
@@ -55,6 +62,24 @@ export function VerifyEmailForm({
     } finally {
       setIsLoading(false)
     }
+  }
+
+  if (!emailParam) {
+    return (
+      <Card className="w-full max-w-[400px]">
+        <CardContent className="p-6">
+          <p className="text-center text-sm text-muted-foreground">
+            No email address provided. Please try signing up again.
+          </p>
+          <Button 
+            className="mt-4 w-full"
+            onClick={() => router.push('/signup')}
+          >
+            Back to Sign Up
+          </Button>
+        </CardContent>
+      </Card>
+    )
   }
 
   return (
@@ -73,7 +98,7 @@ export function VerifyEmailForm({
               <Input
                 id="email"
                 type="email"
-                value={email || ''}
+                value={emailParam}
                 disabled
               />
             </div>

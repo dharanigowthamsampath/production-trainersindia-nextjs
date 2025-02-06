@@ -15,6 +15,12 @@ import {
   Settings2,
   Ticket,
   User,
+  Briefcase,
+  GraduationCap,
+  FileText,
+  Calendar,
+  MessageCircle,
+  Loader2,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -48,6 +54,10 @@ const data = {
       plan: "Startup",
     },
   ],
+}
+
+// Company navigation data
+const companyNavData = {
   navMain: [
     {
       title: "Dashboard",
@@ -148,15 +158,145 @@ const data = {
   ],
 }
 
+// Trainer navigation data
+const trainerNavData = {
+  navMain: [
+    {
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: LayoutDashboardIcon,
+      isActive: true,
+    },
+    {
+      title: "Notifications",
+      url: "/notifications",
+      icon: Bell,
+    },
+    {
+      title: "Job Listings",
+      url: "/jobs",
+      icon: Briefcase,
+      items: [
+        {
+          title: "Available Jobs",
+          url: "/jobs/available",
+        },
+        {
+          title: "Applied Jobs",
+          url: "/jobs/applied",
+        },
+        {
+          title: "Saved Jobs",
+          url: "/jobs/saved",
+        },
+      ],
+    },
+    {
+      title: "Profile",
+      url: "/profile",
+      icon: User,
+      items: [
+        {
+          title: "Edit Profile",
+          url: "/profile/edit",
+        },
+        {
+          title: "Resume",
+          url: "/profile/resume",
+        },
+        {
+          title: "Portfolio",
+          url: "/profile/portfolio",
+        },
+      ],
+    },
+    {
+      title: "Training History",
+      url: "/training",
+      icon: GraduationCap,
+    },
+    {
+      title: "Documents",
+      url: "/documents",
+      icon: FileText,
+    },
+    {
+      title: "Schedule",
+      url: "/schedule",
+      icon: Calendar,
+    },
+    {
+      title: "Messages",
+      url: "/messages",
+      icon: MessageCircle,
+    },
+    {
+      title: "Settings",
+      url: "/settings",
+      icon: Settings2,
+      items: [
+        {
+          title: "General",
+          url: "/settings/general",
+        },
+        {
+          title: "Preferences",
+          url: "/settings/preferences",
+        },
+        {
+          title: "Privacy",
+          url: "/settings/privacy",
+        },
+      ],
+    },
+  ],
+  projects: [
+    {
+      name: "Recent Training",
+      url: "#",
+      icon: GraduationCap,
+    },
+    {
+      name: "Upcoming Sessions",
+      url: "#",
+      icon: Calendar,
+    },
+  ],
+}
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [mounted, setMounted] = React.useState(false)
+  const [userData, setUserData] = React.useState<{ userType: string } | null>(null)
+
+  React.useEffect(() => {
+    setMounted(true)
+    // Get user data from localStorage
+    const storedUser = localStorage.getItem('user')
+    if (storedUser) {
+      setUserData(JSON.parse(storedUser))
+    }
+  }, [])
+
+  // Select navigation data based on user type
+  const navData = userData?.userType === 'ROLE_TRAINER' ? trainerNavData : companyNavData
+
+  // Don't render anything until mounted to prevent hydration mismatch
+  if (!mounted) {
+    return (
+      <div className="flex h-screen w-[256px] items-center justify-center bg-muted">
+        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+      </div>
+    )
+  }
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavMain items={navData.navMain} />
+        <NavProjects projects={navData.projects} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

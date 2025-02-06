@@ -1,6 +1,5 @@
 "use client"
 
-import { useRouter, useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { cn } from "@/lib/utils"
@@ -11,9 +10,9 @@ import { Label } from "@/components/ui/label"
 import { loginSchema, type LoginInput } from "@/lib/validations/auth"
 import { useState, useEffect } from "react"
 import { setCookie } from 'cookies-next'
+import Image from 'next/image' // Importing Image from next/image
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
-const REFRESH_TOKEN_BEFORE = 5 * 60 * 1000 // 5 minutes
 
 interface VerifyResponse {
   username: string
@@ -29,9 +28,6 @@ export function LoginForm({
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [loginAttempts, setLoginAttempts] = useState(0)
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const from = searchParams.get('from') || '/dashboard'
   
   const {
     register,
@@ -224,9 +220,10 @@ export function LoginForm({
             </div>
           </form>
           <div className="relative hidden bg-muted md:block">
-            <img
+            <Image
               src="/login.webp"
               alt="Image"
+              layout="fill"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
             />
           </div>

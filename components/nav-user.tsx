@@ -9,7 +9,6 @@ import {
   Sparkles,
 } from "lucide-react"
 import { deleteCookie, getCookie } from 'cookies-next'
-import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 
 import {
@@ -37,12 +36,10 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL
 
 export function NavUser({
   user,
-  ...props
 }: {
   user?: { name: string; email: string; avatar: string }
 } & React.ComponentProps<"div">) {
   const { isMobile } = useSidebar()
-  const router = useRouter()
   const [isLoggingOut, setIsLoggingOut] = useState(false)
   const [userData, setUserData] = useState(user || { name: 'User', email: '', avatar: '' })
 
